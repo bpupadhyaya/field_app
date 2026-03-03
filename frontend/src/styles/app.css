@@ -20,6 +20,13 @@ body { margin: 0; font-family: "Segoe UI", "Avenir Next", sans-serif; background
 .menu-button:hover, button:hover { background: var(--panel-2); }
 .dropdown { position:absolute; top: calc(100% - 2px); left:0; min-width: 280px; max-height: 360px; overflow:auto; background: #1f2d49; border:1px solid #3f5787; border-radius: 10px; padding: 8px; display:flex; flex-direction:column; gap:6px; }
 .dropdown-item { text-align:left; }
+.digital-tools-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-top: 8px; }
+.digital-tool-card { display:flex; gap:12px; align-items:flex-start; text-align:left; width:100%; padding:12px; border:1px solid #47608e; background:#1a2946; border-radius:12px; }
+.digital-tool-card:hover { background:#22365b; }
+.digital-tool-image { width:120px; height:78px; object-fit:cover; border-radius:10px; border:1px solid #5c7ab0; flex: 0 0 auto; }
+.digital-tool-copy { display:flex; flex-direction:column; gap:6px; }
+.digital-tool-copy strong { font-size: 14px; }
+.digital-tool-copy span { color: var(--muted); font-size: 12px; line-height: 1.4; }
 .content { padding: 18px; }
 .card { background: linear-gradient(180deg, #202e4a, #1b253a); border: 1px solid #37507e; border-radius: 14px; padding: 16px; margin-bottom: 16px; }
 .grid-2 { display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }

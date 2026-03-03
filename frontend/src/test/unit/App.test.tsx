@@ -104,6 +104,42 @@ describe('App', () => {
     expect(await screen.findByRole('heading', { name: 'equipment' })).toBeInTheDocument()
   })
 
+  it('renders digital tools page for /section/digital and supports item navigation', async () => {
+    token = 'ok'
+    apiMock.mockImplementation((path: string) => {
+      if (path === '/api/users/whoami') return Promise.resolve({ username: 'admin', roles: ['ROLE_ADMIN'] })
+      if (path === '/api/site/navigation') return Promise.resolve([])
+      return Promise.resolve([])
+    })
+
+    render(
+      <MemoryRouter initialEntries={['/section/digital']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(await screen.findByRole('heading', { name: 'Digital Tools' })).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /MyFinancials/i }))
+    expect(await screen.findByRole('heading', { name: 'MyFinancials' })).toBeInTheDocument()
+  })
+
+  it('renders digital tools page for /section/digital/Digital Tools', async () => {
+    token = 'ok'
+    apiMock.mockImplementation((path: string) => {
+      if (path === '/api/users/whoami') return Promise.resolve({ username: 'admin', roles: ['ROLE_ADMIN'] })
+      if (path === '/api/site/navigation') return Promise.resolve([])
+      return Promise.resolve([])
+    })
+
+    render(
+      <MemoryRouter initialEntries={['/section/digital/Digital%20Tools']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(await screen.findByRole('heading', { name: 'Digital Tools' })).toBeInTheDocument()
+  })
+
   it('shows not authorized for admin route when manager is logged in and allows logout', async () => {
     token = 'ok'
     apiMock.mockImplementation((path: string) => {

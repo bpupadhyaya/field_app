@@ -11,6 +11,7 @@ import SuperAdminPage from './pages/SuperAdminPage'
 import ManagerPage from './pages/ManagerPage'
 import UserPage from './pages/UserPage'
 import GenericSectionPage from './pages/GenericSectionPage'
+import DigitalToolsPage from './pages/DigitalToolsPage'
 import type { LoginResponse } from './types'
 import { deriveRoleAccess } from './authz'
 
@@ -28,7 +29,11 @@ interface WhoAmI {
 
 function SectionRoute() {
   const { section, item } = useParams()
-  const title = item ? decodeURIComponent(item) : section!
+  const decodedItem = item ? decodeURIComponent(item) : null
+  if (section === 'digital' && (!decodedItem || decodedItem === 'Digital Tools')) {
+    return <DigitalToolsPage />
+  }
+  const title = decodedItem || section!
   return <GenericSectionPage title={title} subtitle="SPA route rendered in-place without full page refresh." />
 }
 

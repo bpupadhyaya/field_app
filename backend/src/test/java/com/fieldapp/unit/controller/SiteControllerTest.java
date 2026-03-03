@@ -20,5 +20,13 @@ class SiteControllerTest {
         @SuppressWarnings("unchecked")
         Map<String, Object> first = (Map<String, Object>) groups.get(0);
         assertThat(first).containsKeys("key", "items");
+
+        @SuppressWarnings("unchecked")
+        Map<String, Object> digital = (Map<String, Object>) groups.stream()
+                .map(Map.class::cast)
+                .filter(g -> "digital".equals(g.get("key")))
+                .findFirst()
+                .orElseThrow();
+        assertThat(digital.get("items")).isEqualTo(List.of("Digital Tools"));
     }
 }
