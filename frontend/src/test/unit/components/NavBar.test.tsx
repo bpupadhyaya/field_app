@@ -69,6 +69,18 @@ describe('NavBar', () => {
     expect(baseProps.onNavigate).toHaveBeenCalledWith('/superadmin')
   })
 
+  it('renders layout control in dedicated far-right slot', () => {
+    render(<NavBar {...baseProps} canViewManager={true} canViewUser={true} />)
+
+    const layoutButton = screen.getByRole('button', { name: 'Layout' })
+    const layoutSlot = layoutButton.closest('.layout-slot')
+    expect(layoutSlot).not.toBeNull()
+
+    const menuRow = layoutButton.closest('.menu-row') as HTMLElement
+    const actionButtons = Array.from(menuRow.querySelectorAll(':scope > button.menu-button')).map((b) => b.textContent)
+    expect(actionButtons).not.toContain('Layout')
+  })
+
   it('executes logout handler when logout clicked', () => {
     render(<NavBar {...baseProps} />)
     fireEvent.click(screen.getByRole('button', { name: 'Logout' }))

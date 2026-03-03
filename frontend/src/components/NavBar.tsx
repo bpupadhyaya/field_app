@@ -65,7 +65,6 @@ export default function NavBar({ menu, onNavigate, onOpenLayout, onLogout, canVi
             )}
           </div>
         ))}
-        <button className="menu-button" onClick={onOpenLayout}>Layout</button>
         <button className="menu-button" onClick={() => onNavigate('/dashboard')}>Dashboard</button>
         <button className="menu-button" onClick={() => onNavigate('/devices')}>Device Search</button>
         {canViewManager && <button className="menu-button" onClick={() => onNavigate('/manager')}>Manager</button>}
@@ -73,6 +72,9 @@ export default function NavBar({ menu, onNavigate, onOpenLayout, onLogout, canVi
         {canViewSuperAdmin
           ? <button className="menu-button" onClick={() => onNavigate('/superadmin')}>Super Admin</button>
           : canViewAdmin && <button className="menu-button" onClick={() => onNavigate('/admin')}>Admin</button>}
+        <div className="layout-slot">
+          <button className="menu-button" onClick={onOpenLayout}>Layout</button>
+        </div>
       </div>
     </div>
   )
