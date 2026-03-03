@@ -1,8 +1,9 @@
-package com.fieldapp.service;
+package com.fieldapp.unit.service;
 
 import com.fieldapp.model.UserRuntimeSession;
 import com.fieldapp.repo.TrafficMetricRepo;
 import com.fieldapp.repo.UserRuntimeSessionRepo;
+import com.fieldapp.service.RuntimeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

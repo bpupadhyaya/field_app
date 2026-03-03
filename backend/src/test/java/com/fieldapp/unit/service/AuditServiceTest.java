@@ -1,6 +1,7 @@
-package com.fieldapp.service;
+package com.fieldapp.unit.service;
 
 import com.fieldapp.repo.AuditEventRepo;
+import com.fieldapp.service.AuditService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;

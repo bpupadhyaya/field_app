@@ -1,5 +1,6 @@
-package com.fieldapp.controller;
+package com.fieldapp.unit.controller;
 
+import com.fieldapp.controller.ApiExceptionHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.MethodParameter;
 import org.springframework.validation.BindingResult;

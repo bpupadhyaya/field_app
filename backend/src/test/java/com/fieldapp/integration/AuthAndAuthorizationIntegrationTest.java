@@ -1,4 +1,4 @@
-package com.fieldapp;
+package com.fieldapp.integration;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

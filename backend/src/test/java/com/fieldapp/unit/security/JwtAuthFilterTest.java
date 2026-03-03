@@ -1,5 +1,7 @@
-package com.fieldapp.security;
+package com.fieldapp.unit.security;
 
+import com.fieldapp.security.JwtAuthFilter;
+import com.fieldapp.security.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

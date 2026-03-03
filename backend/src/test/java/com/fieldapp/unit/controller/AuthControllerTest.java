@@ -1,5 +1,6 @@
-package com.fieldapp.controller;
+package com.fieldapp.unit.controller;
 
+import com.fieldapp.controller.AuthController;
 import com.fieldapp.dto.LoginRequest;
 import com.fieldapp.model.AppUser;
 import com.fieldapp.model.Role;

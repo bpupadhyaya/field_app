@@ -1,5 +1,6 @@
-package com.fieldapp.security;
+package com.fieldapp.unit.security;
 
+import com.fieldapp.security.JwtService;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

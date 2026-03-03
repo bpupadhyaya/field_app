@@ -1,5 +1,6 @@
-package com.fieldapp.config;
+package com.fieldapp.unit.config;
 
+import com.fieldapp.config.SecurityConfig;
 import com.fieldapp.security.JwtAuthFilter;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;

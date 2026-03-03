@@ -1,4 +1,4 @@
-package com.fieldapp;
+package com.fieldapp.integration;
 
 import com.fieldapp.config.DataBootstrap;
 import com.fieldapp.controller.ApiExceptionHandler;

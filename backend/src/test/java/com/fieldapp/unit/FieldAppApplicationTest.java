@@ -1,5 +1,6 @@
-package com.fieldapp;
+package com.fieldapp.unit;
 
+import com.fieldapp.FieldAppApplication;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;

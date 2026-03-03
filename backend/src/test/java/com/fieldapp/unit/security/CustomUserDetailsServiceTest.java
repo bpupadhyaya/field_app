@@ -1,9 +1,10 @@
-package com.fieldapp.security;
+package com.fieldapp.unit.security;
 
 import com.fieldapp.model.AppUser;
 import com.fieldapp.model.Role;
 import com.fieldapp.model.RoleName;
 import com.fieldapp.repo.AppUserRepo;
+import com.fieldapp.security.CustomUserDetailsService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

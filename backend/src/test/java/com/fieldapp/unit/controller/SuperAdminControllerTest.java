@@ -1,5 +1,6 @@
-package com.fieldapp.controller;
+package com.fieldapp.unit.controller;
 
+import com.fieldapp.controller.SuperAdminController;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

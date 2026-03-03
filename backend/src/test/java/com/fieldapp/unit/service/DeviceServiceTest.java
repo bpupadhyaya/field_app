@@ -1,4 +1,4 @@
-package com.fieldapp.service;
+package com.fieldapp.unit.service;
 
 import com.fieldapp.dto.ControlCommandRequest;
 import com.fieldapp.model.AppUser;
@@ -11,6 +11,8 @@ import com.fieldapp.repo.DeviceEssentialDataRepo;
 import com.fieldapp.repo.DeviceHealthRepo;
 import com.fieldapp.repo.DevicePriceHistoryRepo;
 import com.fieldapp.repo.DeviceRepo;
+import com.fieldapp.service.AuditService;
+import com.fieldapp.service.DeviceService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

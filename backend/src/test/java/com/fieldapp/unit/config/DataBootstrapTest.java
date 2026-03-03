@@ -1,5 +1,6 @@
-package com.fieldapp.config;
+package com.fieldapp.unit.config;
 
+import com.fieldapp.config.DataBootstrap;
 import com.fieldapp.model.AppUser;
 import com.fieldapp.model.Device;
 import com.fieldapp.model.Role;

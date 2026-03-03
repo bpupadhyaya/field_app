@@ -1,4 +1,4 @@
-package com.fieldapp.config;
+package com.fieldapp.unit.config;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

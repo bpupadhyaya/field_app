@@ -1,5 +1,6 @@
-package com.fieldapp.controller;
+package com.fieldapp.unit.controller;
 
+import com.fieldapp.controller.AdminController;
 import com.fieldapp.dto.SnapshotCleanupRequest;
 import com.fieldapp.model.SnapshotRecord;
 import com.fieldapp.model.UserRuntimeSession;

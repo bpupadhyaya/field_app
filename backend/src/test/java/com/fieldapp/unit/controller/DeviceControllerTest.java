@@ -1,5 +1,6 @@
-package com.fieldapp.controller;
+package com.fieldapp.unit.controller;
 
+import com.fieldapp.controller.DeviceController;
 import com.fieldapp.dto.ControlCommandRequest;
 import com.fieldapp.dto.UpdatePriceRequest;
 import com.fieldapp.service.DeviceService;

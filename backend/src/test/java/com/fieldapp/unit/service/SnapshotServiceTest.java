@@ -1,9 +1,10 @@
-package com.fieldapp.service;
+package com.fieldapp.unit.service;
 
 import com.fieldapp.model.SnapshotRecord;
 import com.fieldapp.repo.AppUserRepo;
 import com.fieldapp.repo.DeviceRepo;
 import com.fieldapp.repo.SnapshotRecordRepo;
+import com.fieldapp.service.SnapshotService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
