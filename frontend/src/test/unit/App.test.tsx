@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
 import App from '../../App'
@@ -138,6 +138,34 @@ describe('App', () => {
     )
 
     expect(await screen.findByRole('heading', { name: 'Digital Tools' })).toBeInTheDocument()
+  })
+
+  it('shows only Digital Tools in digital dropdown from navigation data', async () => {
+    token = 'ok'
+    apiMock.mockImplementation((path: string) => {
+      if (path === '/api/users/whoami') return Promise.resolve({ username: 'admin', roles: ['ROLE_ADMIN'] })
+      if (path === '/api/site/navigation') {
+        return Promise.resolve([
+          { key: 'digital', title: 'Digital', items: ['Digital Tools'] }
+        ])
+      }
+      return Promise.resolve([])
+    })
+
+    render(
+      <MemoryRouter initialEntries={['/dashboard']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const digitalMenu = await screen.findByText('Digital')
+    const menuItem = digitalMenu.closest('.menu-item') as HTMLElement
+    fireEvent.mouseEnter(menuItem)
+
+    const dropdown = menuItem.querySelector('.dropdown') as HTMLElement
+    const dropdownItems = within(dropdown).getAllByRole('button')
+    expect(dropdownItems).toHaveLength(1)
+    expect(within(dropdown).getByRole('button', { name: 'Digital Tools' })).toBeInTheDocument()
   })
 
   it('shows not authorized for admin route when manager is logged in and allows logout', async () => {
