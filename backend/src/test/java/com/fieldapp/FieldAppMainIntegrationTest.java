@@ -5,17 +5,14 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.springframework.boot.SpringApplication;
 
-class FieldAppApplicationTest {
-    @Test
-    void canInstantiateApplicationClass() {
-        new FieldAppApplication();
-    }
+class FieldAppMainIntegrationTest {
 
     @Test
     void mainDelegatesToSpringApplicationRun() {
+        String[] args = {"--spring.main.web-application-type=none"};
         try (MockedStatic<SpringApplication> mocked = Mockito.mockStatic(SpringApplication.class)) {
-            FieldAppApplication.main(new String[]{"--spring.main.banner-mode=off"});
-            mocked.verify(() -> SpringApplication.run(FieldAppApplication.class, new String[]{"--spring.main.banner-mode=off"}));
+            FieldAppApplication.main(args);
+            mocked.verify(() -> SpringApplication.run(FieldAppApplication.class, args));
         }
     }
 }
