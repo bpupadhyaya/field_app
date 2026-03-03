@@ -52,8 +52,8 @@ cd /Users/bhimupadhyaya/coding_common/misc/field_app
 
 ## Local Quality Checks
 ```bash
-cd frontend && npm ci && npm run build
-cd ../backend && mvn test
+cd frontend && npm ci && npm run test:coverage && npm run build
+cd ../backend && mvn test jacoco:report
 ```
 
 ## Kubernetes Local Test (Minikube or Docker Desktop)

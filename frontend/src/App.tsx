@@ -12,6 +12,7 @@ import ManagerPage from './pages/ManagerPage'
 import UserPage from './pages/UserPage'
 import GenericSectionPage from './pages/GenericSectionPage'
 import type { LoginResponse } from './types'
+import { deriveRoleAccess } from './authz'
 
 interface MenuGroup {
   key: string
@@ -67,11 +68,8 @@ export default function App() {
 
   if (!authStore.token || !user) return <LoginPage onLogin={onLogin} />
 
-  const roles = new Set(user.roles || [])
-  const canViewSuperAdmin = roles.has('ROLE_SUPER_ADMIN')
-  const canViewAdmin = canViewSuperAdmin || (roles.has('ROLE_ADMIN') && !roles.has('ROLE_MANAGER'))
-  const canViewManager = !canViewSuperAdmin && roles.has('ROLE_MANAGER')
-  const canViewUser = !canViewSuperAdmin && !roles.has('ROLE_MANAGER') && roles.has('ROLE_USER')
+  const roles = user.roles || []
+  const { canViewSuperAdmin, canViewAdmin, canViewManager, canViewUser } = deriveRoleAccess(roles)
 
   return (
     <div className="app-shell">
@@ -94,7 +92,7 @@ export default function App() {
           <Route path="/devices" element={<DevicesPage layout={layout} />} />
           <Route path="/manager" element={canViewManager ? <ManagerPage /> : <GenericSectionPage title="Not Authorized" subtitle="Manager role required." />} />
           <Route path="/user" element={canViewUser ? <UserPage /> : <GenericSectionPage title="Not Authorized" subtitle="User role required." />} />
-          <Route path="/admin" element={canViewAdmin ? <AdminPage roles={[...roles]} /> : <GenericSectionPage title="Not Authorized" subtitle="You do not have access to Admin page." />} />
+          <Route path="/admin" element={canViewAdmin ? <AdminPage roles={roles} /> : <GenericSectionPage title="Not Authorized" subtitle="You do not have access to Admin page." />} />
           <Route path="/superadmin" element={canViewSuperAdmin ? <SuperAdminPage /> : <GenericSectionPage title="Not Authorized" subtitle="Super Admin access required." />} />
           <Route path="/section/:section" element={<SectionRoute />} />
           <Route path="/section/:section/:item" element={<SectionRoute />} />
