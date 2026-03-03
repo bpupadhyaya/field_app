@@ -28,6 +28,7 @@ describe('NavBar', () => {
   it('shows manager tab and hides admin tab for manager view', () => {
     render(<NavBar {...baseProps} canViewManager={true} />)
 
+    expect(screen.getByText('Field App')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Manager' })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Admin' })).not.toBeInTheDocument()
   })

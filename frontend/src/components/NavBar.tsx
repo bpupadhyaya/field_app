@@ -53,7 +53,7 @@ export default function NavBar({ menu, onNavigate, onOpenLayout, onLogout, canVi
   return (
     <div className="header-wrap">
       <div className="brand-row">
-        <div className="brand">Bhim's Field App</div>
+        <div className="brand">Field App</div>
         <div className="user-info">
           {user?.displayName || user?.username} <button className="ghost" onClick={onLogout}>Logout</button>
         </div>

@@ -51,6 +51,7 @@ describe('App', () => {
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { name: 'Device Dashboard' })).toBeInTheDocument()
+      expect(screen.getByText('Field App')).toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'Manager' })).toBeInTheDocument()
       expect(screen.queryByRole('button', { name: 'Admin' })).not.toBeInTheDocument()
     })
