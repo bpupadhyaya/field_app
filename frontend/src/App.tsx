@@ -28,7 +28,7 @@ interface WhoAmI {
 
 function SectionRoute() {
   const { section, item } = useParams()
-  const title = item ? decodeURIComponent(item) : (section || '')
+  const title = item ? decodeURIComponent(item) : section!
   return <GenericSectionPage title={title} subtitle="SPA route rendered in-place without full page refresh." />
 }
 

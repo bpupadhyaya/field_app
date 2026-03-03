@@ -4,6 +4,12 @@ import type { Device, PricePoint } from '../types'
 
 interface Props { layout: Record<string, boolean> }
 
+export function compareDeviceField(av: string | number, bv: string | number, asc: boolean) {
+  if (av === bv) return 0
+  if (av > bv) return asc ? 1 : -1
+  return asc ? -1 : 1
+}
+
 function sparkline(points: PricePoint[]) {
   if (!points.length) return null
   const values = points.map((p) => Number(p.price))
@@ -37,10 +43,7 @@ export default function DevicesPage({ layout }: Props) {
   useEffect(() => { load() }, [layout.price24h, layout.price7d, layout.price30d, layout.price90d])
 
   const sorted = [...devices].sort((a, b) => {
-    const av = a[sortBy]
-    const bv = b[sortBy]
-    if (av === bv) return 0
-    return asc ? (av > bv ? 1 : -1) : (av < bv ? 1 : -1)
+    return compareDeviceField(a[sortBy], b[sortBy], asc)
   })
 
   async function control(device: Device, command: string) {

@@ -1,10 +1,10 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import LoginPage from './LoginPage'
+import LoginPage from '../../../pages/LoginPage'
 
 const apiMock = vi.fn()
 
-vi.mock('../api', () => ({
+vi.mock('../../../api', () => ({
   api: (...args: unknown[]) => apiMock(...args),
   authStore: { token: null as string | null }
 }))
