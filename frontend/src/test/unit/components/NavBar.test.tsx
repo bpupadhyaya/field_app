@@ -135,4 +135,20 @@ describe('NavBar', () => {
     })
     expect(screen.queryByRole('button', { name: 'Large Loader' })).not.toBeInTheDocument()
   })
+
+  it('closes dropdown immediately after selecting a dropdown item', () => {
+    render(
+      <NavBar
+        {...baseProps}
+        menu={[{ key: 'equipment', title: 'Equipment', items: ['Large Loader'] }]}
+      />
+    )
+
+    const menuItem = screen.getByText('Equipment').closest('.menu-item') as HTMLElement
+    fireEvent.mouseEnter(menuItem)
+    fireEvent.click(screen.getByRole('button', { name: 'Large Loader' }))
+
+    expect(baseProps.onNavigate).toHaveBeenCalledWith('/section/equipment/Large%20Loader')
+    expect(screen.queryByRole('button', { name: 'Large Loader' })).not.toBeInTheDocument()
+  })
 })

@@ -42,6 +42,12 @@ export default function NavBar({ menu, onNavigate, onOpenLayout, onLogout, canVi
     }, 120)
   }
 
+  function navigateAndClose(path: string) {
+    cancelClose()
+    setOpen(null)
+    onNavigate(path)
+  }
+
   useEffect(() => () => cancelClose(), [])
 
   return (
@@ -55,11 +61,11 @@ export default function NavBar({ menu, onNavigate, onOpenLayout, onLogout, canVi
       <div className="menu-row">
         {menu.map((m) => (
           <div key={m.key} className="menu-item" onMouseEnter={() => openMenu(m.key)} onMouseLeave={scheduleClose}>
-            <button className="menu-button" onClick={() => onNavigate(`/section/${m.key}`)}>{m.title}</button>
+            <button className="menu-button" onClick={() => navigateAndClose(`/section/${m.key}`)}>{m.title}</button>
             {open === m.key && (
               <div className="dropdown" onMouseEnter={cancelClose} onMouseLeave={scheduleClose}>
                 {m.items.map((item) => (
-                  <button key={item} className="dropdown-item" onClick={() => onNavigate(`/section/${m.key}/${encodeURIComponent(item)}`)}>{item}</button>
+                  <button key={item} className="dropdown-item" onClick={() => navigateAndClose(`/section/${m.key}/${encodeURIComponent(item)}`)}>{item}</button>
                 ))}
               </div>
             )}
