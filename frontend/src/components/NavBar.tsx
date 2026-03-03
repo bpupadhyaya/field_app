@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 interface MenuGroup {
   key: string
@@ -20,6 +20,29 @@ interface Props {
 
 export default function NavBar({ menu, onNavigate, onOpenLayout, onLogout, canViewAdmin, canViewSuperAdmin, canViewManager, canViewUser, user }: Props) {
   const [open, setOpen] = useState<string | null>(null)
+  const closeTimerRef = useRef<number | null>(null)
+
+  function cancelClose() {
+    if (closeTimerRef.current !== null) {
+      window.clearTimeout(closeTimerRef.current)
+      closeTimerRef.current = null
+    }
+  }
+
+  function openMenu(key: string) {
+    cancelClose()
+    setOpen(key)
+  }
+
+  function scheduleClose() {
+    cancelClose()
+    closeTimerRef.current = window.setTimeout(() => {
+      setOpen(null)
+      closeTimerRef.current = null
+    }, 120)
+  }
+
+  useEffect(() => () => cancelClose(), [])
 
   return (
     <div className="header-wrap">
@@ -31,10 +54,10 @@ export default function NavBar({ menu, onNavigate, onOpenLayout, onLogout, canVi
       </div>
       <div className="menu-row">
         {menu.map((m) => (
-          <div key={m.key} className="menu-item" onMouseEnter={() => setOpen(m.key)} onMouseLeave={() => setOpen(null)}>
+          <div key={m.key} className="menu-item" onMouseEnter={() => openMenu(m.key)} onMouseLeave={scheduleClose}>
             <button className="menu-button" onClick={() => onNavigate(`/section/${m.key}`)}>{m.title}</button>
             {open === m.key && (
-              <div className="dropdown">
+              <div className="dropdown" onMouseEnter={cancelClose} onMouseLeave={scheduleClose}>
                 {m.items.map((item) => (
                   <button key={item} className="dropdown-item" onClick={() => onNavigate(`/section/${m.key}/${encodeURIComponent(item)}`)}>{item}</button>
                 ))}

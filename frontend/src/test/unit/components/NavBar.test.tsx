@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { act, fireEvent, render, screen } from '@testing-library/react'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import NavBar from '../../../components/NavBar'
 
 const baseProps = {
@@ -19,6 +19,10 @@ describe('NavBar', () => {
     baseProps.onNavigate.mockReset()
     baseProps.onOpenLayout.mockReset()
     baseProps.onLogout.mockReset()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
   })
 
   it('shows manager tab and hides admin tab for manager view', () => {
@@ -69,5 +73,54 @@ describe('NavBar', () => {
     render(<NavBar {...baseProps} />)
     fireEvent.click(screen.getByRole('button', { name: 'Logout' }))
     expect(baseProps.onLogout).toHaveBeenCalledTimes(1)
+  })
+
+  it('keeps dropdown visible briefly during hover transition and closes after delay', () => {
+    vi.useFakeTimers()
+    render(
+      <NavBar
+        {...baseProps}
+        menu={[{ key: 'equipment', title: 'Equipment', items: ['Large Loader'] }]}
+      />
+    )
+
+    const menuItem = screen.getByText('Equipment').closest('.menu-item') as HTMLElement
+    fireEvent.mouseEnter(menuItem)
+    expect(screen.getByRole('button', { name: 'Large Loader' })).toBeInTheDocument()
+
+    fireEvent.mouseLeave(menuItem)
+    expect(screen.getByRole('button', { name: 'Large Loader' })).toBeInTheDocument()
+
+    act(() => {
+      vi.advanceTimersByTime(120)
+    })
+    expect(screen.queryByRole('button', { name: 'Large Loader' })).not.toBeInTheDocument()
+  })
+
+  it('keeps dropdown open when pointer reaches dropdown before close delay expires', () => {
+    vi.useFakeTimers()
+    render(
+      <NavBar
+        {...baseProps}
+        menu={[{ key: 'equipment', title: 'Equipment', items: ['Large Loader'] }]}
+      />
+    )
+
+    const menuItem = screen.getByText('Equipment').closest('.menu-item') as HTMLElement
+    fireEvent.mouseEnter(menuItem)
+    const dropdown = screen.getByRole('button', { name: 'Large Loader' }).closest('.dropdown') as HTMLElement
+
+    fireEvent.mouseLeave(menuItem)
+    fireEvent.mouseEnter(dropdown)
+    act(() => {
+      vi.advanceTimersByTime(300)
+    })
+    expect(screen.getByRole('button', { name: 'Large Loader' })).toBeInTheDocument()
+
+    fireEvent.mouseLeave(dropdown)
+    act(() => {
+      vi.advanceTimersByTime(120)
+    })
+    expect(screen.queryByRole('button', { name: 'Large Loader' })).not.toBeInTheDocument()
   })
 })
