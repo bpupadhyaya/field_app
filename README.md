@@ -13,10 +13,22 @@ Open-source field operations platform with role-based access, device operations,
 
 ## Default Credentials (Local Dev)
 - sadmin / sadmin123
+- sadmin1 / sadmin123
+- sadmin2 / sadmin123
+- sadmin3 / sadmin123
 - admin / admin123
+- admin1 / admin123
+- admin2 / admin123
+- admin3 / admin123
 - manager1 / manager123
+- manager2 / manager123
+- manager3 / manager123
 - user1 / user123
+- user2 / user123
+- user3 / user123
 - dealer1 / dealer123
+- dealer2 / dealer123
+- dealer3 / dealer123
 
 ## Quick Start
 ```bash

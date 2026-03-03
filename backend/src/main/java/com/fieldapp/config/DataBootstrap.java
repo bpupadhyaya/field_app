@@ -34,30 +34,34 @@ public class DataBootstrap implements CommandLineRunner {
         var allRoles = Arrays.stream(RoleName.values())
                 .map(rn -> roleRepo.findByName(rn).orElseThrow())
                 .collect(Collectors.toSet());
-        var superAdminRole = roleRepo.findByName(RoleName.ROLE_SUPER_ADMIN).orElseThrow();
+        var adminRole = roleRepo.findByName(RoleName.ROLE_ADMIN).orElseThrow();
+        var managerRole = roleRepo.findByName(RoleName.ROLE_MANAGER).orElseThrow();
+        var userRole = roleRepo.findByName(RoleName.ROLE_USER).orElseThrow();
+        var dealerRole = roleRepo.findByName(RoleName.ROLE_DEALER).orElseThrow();
 
         migrateLegacySuperadminUsername();
 
-        if (appUserRepo.findByUsername("sadmin").isEmpty()) {
-            appUserRepo.save(AppUser.builder().username("sadmin").passwordHash(passwordEncoder.encode("sadmin123")).displayName("Super Admin").email("sadmin@field.local").userType(UserType.EMPLOYEE).roles(Set.of(superAdminRole)).build());
-            appUserRepo.save(AppUser.builder().username("admin").passwordHash(passwordEncoder.encode("Admin@123")).displayName("Admin User").email("admin@field.local").userType(UserType.EMPLOYEE).roles(Set.of(roleRepo.findByName(RoleName.ROLE_ADMIN).orElseThrow())).build());
-            appUserRepo.save(AppUser.builder().username("manager1").passwordHash(passwordEncoder.encode("Manager@123")).displayName("Manager One").email("manager1@field.local").userType(UserType.EMPLOYEE).roles(Set.of(roleRepo.findByName(RoleName.ROLE_MANAGER).orElseThrow())).build());
-            appUserRepo.save(AppUser.builder().username("user1").passwordHash(passwordEncoder.encode("User@123")).displayName("User One").email("user1@field.local").userType(UserType.EMPLOYEE).roles(Set.of(roleRepo.findByName(RoleName.ROLE_USER).orElseThrow())).build());
-            appUserRepo.save(AppUser.builder().username("dealer1").passwordHash(passwordEncoder.encode("Dealer@123")).displayName("Dealer One").email("dealer1@field.local").userType(UserType.DEALER).roles(Set.of(roleRepo.findByName(RoleName.ROLE_DEALER).orElseThrow())).build());
-        }
-        appUserRepo.findByUsername("sadmin").ifPresent(sa -> {
-            sa.setRoles(allRoles);
-            appUserRepo.save(sa);
-        });
-        appUserRepo.findByUsername("manager1").ifPresent(manager -> {
-            manager.setRoles(Set.of(roleRepo.findByName(RoleName.ROLE_MANAGER).orElseThrow()));
-            appUserRepo.save(manager);
-        });
-        resetDefaultPassword("sadmin", "sadmin123");
-        resetDefaultPassword("admin", "admin123");
-        resetDefaultPassword("manager1", "manager123");
-        resetDefaultPassword("user1", "user123");
-        resetDefaultPassword("dealer1", "dealer123");
+        ensureDefaultUser("sadmin", "sadmin123", "Super Admin", "sadmin@field.local", UserType.EMPLOYEE, allRoles);
+        ensureDefaultUser("sadmin1", "sadmin123", "Super Admin 1", "sadmin1@field.local", UserType.EMPLOYEE, allRoles);
+        ensureDefaultUser("sadmin2", "sadmin123", "Super Admin 2", "sadmin2@field.local", UserType.EMPLOYEE, allRoles);
+        ensureDefaultUser("sadmin3", "sadmin123", "Super Admin 3", "sadmin3@field.local", UserType.EMPLOYEE, allRoles);
+
+        ensureDefaultUser("admin", "admin123", "Admin User", "admin@field.local", UserType.EMPLOYEE, Set.of(adminRole));
+        ensureDefaultUser("admin1", "admin123", "Admin User 1", "admin1@field.local", UserType.EMPLOYEE, Set.of(adminRole));
+        ensureDefaultUser("admin2", "admin123", "Admin User 2", "admin2@field.local", UserType.EMPLOYEE, Set.of(adminRole));
+        ensureDefaultUser("admin3", "admin123", "Admin User 3", "admin3@field.local", UserType.EMPLOYEE, Set.of(adminRole));
+
+        ensureDefaultUser("manager1", "manager123", "Manager One", "manager1@field.local", UserType.EMPLOYEE, Set.of(managerRole));
+        ensureDefaultUser("manager2", "manager123", "Manager Two", "manager2@field.local", UserType.EMPLOYEE, Set.of(managerRole));
+        ensureDefaultUser("manager3", "manager123", "Manager Three", "manager3@field.local", UserType.EMPLOYEE, Set.of(managerRole));
+
+        ensureDefaultUser("user1", "user123", "User One", "user1@field.local", UserType.EMPLOYEE, Set.of(userRole));
+        ensureDefaultUser("user2", "user123", "User Two", "user2@field.local", UserType.EMPLOYEE, Set.of(userRole));
+        ensureDefaultUser("user3", "user123", "User Three", "user3@field.local", UserType.EMPLOYEE, Set.of(userRole));
+
+        ensureDefaultUser("dealer1", "dealer123", "Dealer One", "dealer1@field.local", UserType.DEALER, Set.of(dealerRole));
+        ensureDefaultUser("dealer2", "dealer123", "Dealer Two", "dealer2@field.local", UserType.DEALER, Set.of(dealerRole));
+        ensureDefaultUser("dealer3", "dealer123", "Dealer Three", "dealer3@field.local", UserType.DEALER, Set.of(dealerRole));
 
         if (deviceRepo.count() < 10) {
             List<String[]> types = List.of(
@@ -86,11 +90,22 @@ public class DataBootstrap implements CommandLineRunner {
         }
     }
 
-    private void resetDefaultPassword(String username, String rawPassword) {
-        appUserRepo.findByUsername(username).ifPresent(user -> {
-            user.setPasswordHash(passwordEncoder.encode(rawPassword));
+    private void ensureDefaultUser(String username, String password, String displayName, String email, UserType userType, Set<Role> roles) {
+        appUserRepo.findByUsername(username).ifPresentOrElse(user -> {
+            user.setPasswordHash(passwordEncoder.encode(password));
+            user.setDisplayName(displayName);
+            user.setEmail(email);
+            user.setUserType(userType);
+            user.setRoles(roles);
             appUserRepo.save(user);
-        });
+        }, () -> appUserRepo.save(AppUser.builder()
+                .username(username)
+                .passwordHash(passwordEncoder.encode(password))
+                .displayName(displayName)
+                .email(email)
+                .userType(userType)
+                .roles(roles)
+                .build()));
     }
 
     private void migrateLegacySuperadminUsername() {
